@@ -93,7 +93,7 @@ const styles: { [key: string]: React.CSSProperties } = {
 };
 
 const FloatingHearts: React.FC = () => {
-  const hearts = ["❤️", "💕", "💖", "💗", "💓", "💝"];
+  const hearts = ["❤️", "💕", "💖", "💗", "💓", "💝","🐵", "🍌","🐒"];
   const floatingHearts = Array.from({ length: 15 }, (_, i) => ({
     id: i,
     emoji: hearts[Math.floor(Math.random() * hearts.length)],
