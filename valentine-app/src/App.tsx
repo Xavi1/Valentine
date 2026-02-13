@@ -31,8 +31,12 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
   title: {
     fontSize: "28px",
-    marginBottom: "40px",
+    marginBottom: "10px",
     color: "#333",
+  },
+  heart: {
+    fontSize: "48px",
+    marginBottom: "30px",
   },
   buttonContainer: {
     display: "flex",
@@ -40,7 +44,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     alignItems: "center",
     gap: "20px",
     position: "relative",
-    height: "60px",
+    minHeight: "60px",
     marginTop: "20px",
   },
   button: {
@@ -55,10 +59,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
   },
   noWrapper: {
-    position: "absolute",
-    left: "50%",
-    transform: "translateX(-50%)",
-    marginLeft: "100px",
+    display: "inline-block",
   },
   success: {
     fontSize: "32px",
@@ -89,16 +90,23 @@ const App: React.FC = () => {
               transition={{ duration: 0.5 }}
               style={styles.title}
             >
-              Will you be my Valentine? ❤️
+              Will you be my Valentine?
             </motion.h1>
+            
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              style={styles.heart}
+            >
+              ❤️
+            </motion.div>
 
             <div style={styles.buttonContainer}>
               <button
                 style={{ 
                   ...styles.button, 
                   backgroundColor: "#ff4d6d",
-                  position: "relative",
-                  zIndex: 1,
                 }}
                 onClick={() => setAccepted(true)}
                 onMouseEnter={(e) => {
@@ -115,6 +123,7 @@ const App: React.FC = () => {
                 animate={{ x: position.x, y: position.y }}
                 transition={{ type: "spring", stiffness: 300 }}
                 onMouseEnter={moveButton}
+                onMouseLeave={() => setPosition({ x: 0, y: 0 })}
                 style={styles.noWrapper}
               >
                 <button
