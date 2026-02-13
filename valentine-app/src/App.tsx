@@ -367,7 +367,7 @@ const App: React.FC = () => {
             style={styles.success}
           >
             <motion.img
-              src="/dancing-monkey.gif" 
+              src="./dancing-monkey.gif" 
               alt="Dancing monkey"
               style={{
                 width: 'clamp(100px, 20vw, 150px)',
