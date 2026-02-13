@@ -356,54 +356,55 @@ const App: React.FC = () => {
           </>
         ) : (
           <motion.div
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ 
-              duration: 0.8,
-              ease: [0.34, 1.56, 0.64, 1],
-              type: "spring",
-              stiffness: 200
+          initial={{ scale: 0, rotate: -180 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{
+            duration: 0.8,
+            ease: [0.34, 1.56, 0.64, 1],
+            type: "spring",
+            stiffness: 200,
+          }}
+          style={styles.success}
+        >
+          {/* Dancing GIF */}
+          <motion.img
+            src="/dancing-monkey.gif"  // Make sure this is in public/
+            alt="Dancing monkey"
+            style={{
+              width: 'clamp(100px, 20vw, 150px)',
+              height: 'auto',
+              marginBottom: '20px',
             }}
-            style={styles.success}
+            animate={{
+              scale: [1, 1.05, 1], // subtle bouncing effect
+            }}
+            transition={{
+              duration: 0.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+
+          {/* YAY text with pulsing */}
+          <motion.div
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            style={{ fontSize: 'clamp(24px, 6vw, 36px)', fontWeight: 800, color: "#ff4d6d" }}
           >
-            <motion.img
-              src="./dancing-monkey.gif" 
-              alt="Dancing monkey"
-              style={{
-                width: 'clamp(100px, 20vw, 150px)',
-                height: 'auto',
-                marginBottom: '20px',
-              }}
-              animate={{
-                scale: [1, 1.05, 1],
-              }}
-              transition={{
-                duration: 0.5,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
-            <motion.div
-              animate={{
-                scale: [1, 1.1, 1],
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            >
-              YAY!!! 🎉💘
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              style={{ fontSize: "clamp(18px, 4vw, 24px)", marginTop: "10px" }}
-            >
-              You just made my day!
-            </motion.div>
+            YAY!!! 🎉💘
           </motion.div>
+
+          {/* Subtext */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            style={{ fontSize: 'clamp(18px, 4vw, 24px)', marginTop: '10px' }}
+          >
+            You just made my day!
+          </motion.div>
+        </motion.div>
+
         )}
       </motion.div>
     </div>
