@@ -27,6 +27,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     opacity: 0.6,
     pointerEvents: "none",
     userSelect: "none",
+    zIndex: 1,
   },
   card: {
     backgroundColor: "white",
@@ -38,6 +39,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     maxWidth: "460px",
     position: "relative",
     boxSizing: "border-box",
+    zIndex: 10,
   },
   title: {
     fontSize: "clamp(24px, 6vw, 32px)",
@@ -95,8 +97,8 @@ const FloatingHearts: React.FC = () => {
   const floatingHearts = Array.from({ length: 15 }, (_, i) => ({
     id: i,
     emoji: hearts[Math.floor(Math.random() * hearts.length)],
-    left: `${Math.random() * 100}%`,
-    animationDelay: `${Math.random() * 10}s`,
+    leftPosition: Math.random() * 100,
+    animationDelay: Math.random() * 10,
     duration: 15 + Math.random() * 10,
     size: 0.6 + Math.random() * 0.8,
   }));
@@ -108,18 +110,18 @@ const FloatingHearts: React.FC = () => {
           key={heart.id}
           style={{
             ...styles.floatingHeart,
-            left: heart.left,
-            fontSize: `${heart.size}em`,
+            left: `${heart.leftPosition}%`,
+            fontSize: `calc(${heart.size}em * 1.5)`,
           }}
           initial={{ 
-            y: "110vh", 
+            y: window.innerHeight + 50, 
             opacity: 0,
             rotate: 0,
             x: 0,
           }}
           animate={{
-            y: "-10vh",
-            opacity: [0, 0.6, 0.6, 0],
+            y: -100,
+            opacity: [0, 0.7, 0.7, 0],
             rotate: [0, 10, -10, 5, -5, 0],
             x: [0, 30, -30, 20, -20, 0],
           }}
