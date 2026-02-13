@@ -2,15 +2,12 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import React from "react";
 
-
-
-
-
 const styles: { [key: string]: React.CSSProperties } = {
   page: {
     minHeight: "100vh",
     minWidth: "100vw",
     width: "100vw",
+    height: "100vh",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -95,29 +92,68 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
 };
 
+const Confetti: React.FC = () => {
+  const confettiPieces = Array.from({ length: 50 }, (_, i) => ({
+    id: i,
+    left: Math.random() * 100,
+    delay: Math.random() * 0.5,
+    duration: 2 + Math.random() * 2,
+    rotation: Math.random() * 360,
+    color: ['#ff4d6d', '#ffc2d1', '#ffb3c6', '#ff8fab', '#fb6f92'][Math.floor(Math.random() * 5)],
+    size: 8 + Math.random() * 8,
+  }));
 
-import { useMemo } from "react";
+  return (
+    <>
+      {confettiPieces.map((piece) => (
+        <motion.div
+          key={piece.id}
+          style={{
+            position: 'absolute',
+            left: `${piece.left}%`,
+            top: '-20px',
+            width: `${piece.size}px`,
+            height: `${piece.size}px`,
+            backgroundColor: piece.color,
+            borderRadius: Math.random() > 0.5 ? '50%' : '2px',
+            pointerEvents: 'none',
+            zIndex: 100,
+          }}
+          initial={{
+            y: -20,
+            rotate: 0,
+            opacity: 1,
+          }}
+          animate={{
+            y: window.innerHeight + 50,
+            rotate: piece.rotation * 3,
+            opacity: [1, 1, 0],
+          }}
+          transition={{
+            duration: piece.duration,
+            delay: piece.delay,
+            ease: 'easeIn',
+            opacity: {
+              duration: piece.duration,
+              times: [0, 0.8, 1],
+            },
+          }}
+        />
+      ))}
+    </>
+  );
+};
 
 const FloatingHearts: React.FC = () => {
-  const floatingHearts = useMemo(() => {
-    const hearts = ["❤️", "💕", "💖", "💗", "💓", "💝","🐵", "🍌","🐒"];
-    // Deterministic seeded random function
-    const rand = (seed: number) => {
-      const x = Math.sin(seed) * 10000;
-      return x - Math.floor(x);
-    };
-    return Array.from({ length: 15 }, (_, i) => {
-      const s = i + 1;
-      return {
-        id: i,
-        emoji: hearts[Math.floor(rand(s) * hearts.length)],
-        leftPosition: rand(s * 2) * 100,
-        animationDelay: rand(s * 3) * 10,
-        duration: 15 + rand(s * 4) * 10,
-        size: 0.6 + rand(s * 5) * 0.8,
-      };
-    });
-  }, []);
+  const hearts = ["❤️", "💕", "💖", "💗", "💓", "💝"];
+  const floatingHearts = Array.from({ length: 15 }, (_, i) => ({
+    id: i,
+    emoji: hearts[Math.floor(Math.random() * hearts.length)],
+    leftPosition: Math.random() * 100,
+    animationDelay: Math.random() * 10,
+    duration: 15 + Math.random() * 10,
+    size: 0.6 + Math.random() * 0.8,
+  }));
 
   return (
     <>
@@ -173,6 +209,7 @@ const App: React.FC = () => {
   const [accepted, setAccepted] = useState(false);
   const [position, setPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [noAttempts, setNoAttempts] = useState(0);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const moveButton = () => {
     setNoAttempts(prev => prev + 1);
@@ -188,11 +225,13 @@ const App: React.FC = () => {
       navigator.vibrate(200);
     }
     setAccepted(true);
+    setShowConfetti(true);
   };
 
   return (
     <div style={styles.page}>
       <FloatingHearts />
+      {showConfetti && <Confetti />}
       <motion.div 
         style={styles.card}
         initial={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -307,6 +346,23 @@ const App: React.FC = () => {
             }}
             style={styles.success}
           >
+            <motion.img
+              src="dancing-monkey.gif"
+              alt="Dancing monkey"
+              style={{
+                width: 'clamp(100px, 20vw, 150px)',
+                height: 'auto',
+                marginBottom: '20px',
+              }}
+              animate={{
+                scale: [1, 1.05, 1],
+              }}
+              transition={{
+                duration: 0.5,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
             <motion.div
               animate={{
                 scale: [1, 1.1, 1],
