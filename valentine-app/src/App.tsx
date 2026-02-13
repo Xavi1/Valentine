@@ -2,12 +2,15 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import React from "react";
 
+
+
+
+
 const styles: { [key: string]: React.CSSProperties } = {
   page: {
     minHeight: "100vh",
     minWidth: "100vw",
     width: "100vw",
-    height: "100vh",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -92,16 +95,29 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
 };
 
+
+import { useMemo } from "react";
+
 const FloatingHearts: React.FC = () => {
-  const hearts = ["❤️", "💕", "💖", "💗", "💓", "💝","🐵", "🍌","🐒"];
-  const floatingHearts = Array.from({ length: 15 }, (_, i) => ({
-    id: i,
-    emoji: hearts[Math.floor(Math.random() * hearts.length)],
-    leftPosition: Math.random() * 100,
-    animationDelay: Math.random() * 10,
-    duration: 15 + Math.random() * 10,
-    size: 0.6 + Math.random() * 0.8,
-  }));
+  const floatingHearts = useMemo(() => {
+    const hearts = ["❤️", "💕", "💖", "💗", "💓", "💝","🐵", "🍌","🐒"];
+    // Deterministic seeded random function
+    const rand = (seed: number) => {
+      const x = Math.sin(seed) * 10000;
+      return x - Math.floor(x);
+    };
+    return Array.from({ length: 15 }, (_, i) => {
+      const s = i + 1;
+      return {
+        id: i,
+        emoji: hearts[Math.floor(rand(s) * hearts.length)],
+        leftPosition: rand(s * 2) * 100,
+        animationDelay: rand(s * 3) * 10,
+        duration: 15 + rand(s * 4) * 10,
+        size: 0.6 + rand(s * 5) * 0.8,
+      };
+    });
+  }, []);
 
   return (
     <>
