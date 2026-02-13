@@ -5,11 +5,19 @@ import React from "react";
 const styles: { [key: string]: React.CSSProperties } = {
   page: {
     minHeight: "100vh",
+    minWidth: "100vw",
+    width: "100vw",
+    height: "100vh",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     background: "linear-gradient(135deg, #ffccd5, #ffe5ec)",
     fontFamily: "Arial, sans-serif",
+    position: "fixed",
+    top: 0,
+    left: 0,
+    zIndex: 9999,
+    overflow: "hidden",
   },
   card: {
     backgroundColor: "white",
@@ -18,7 +26,6 @@ const styles: { [key: string]: React.CSSProperties } = {
     textAlign: "center",
     boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
     width: "90%",
-    maxWidth: "400px",
     position: "relative",
   },
   title: {
