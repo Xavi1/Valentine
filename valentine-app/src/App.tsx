@@ -368,7 +368,7 @@ const App: React.FC = () => {
         >
           {/* Dancing GIF */}
           <motion.img
-            src="/dancing-monkey.gif"  // Make sure this is in public/
+            src="https://gnxudndimvadtkpzvgug.supabase.co/storage/v1/object/public/image/dancing-monkey.gif"
             alt="Dancing monkey"
             style={{
               width: 'clamp(100px, 20vw, 150px)',
