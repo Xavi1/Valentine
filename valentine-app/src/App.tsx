@@ -150,8 +150,8 @@ const FloatingHearts: React.FC = () => {
     id: i,
     emoji: hearts[Math.floor(Math.random() * hearts.length)],
     leftPosition: Math.random() * 100,
-    animationDelay: Math.random() * 10,
-    duration: 15 + Math.random() * 10,
+    animationDelay: Math.random() * 2, // was 10, now much faster
+    duration: 6 + Math.random() * 3,   // was 15 + 10, now much faster
     size: 0.6 + Math.random() * 0.8,
   }));
 
