@@ -26,33 +26,45 @@ const styles: { [key: string]: React.CSSProperties } = {
     textAlign: "center",
     boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
     width: "90%",
+    maxWidth: "500px",
     position: "relative",
   },
   title: {
     fontSize: "28px",
-    marginBottom: "30px",
+    marginBottom: "40px",
+    color: "#333",
   },
   buttonContainer: {
     display: "flex",
     justifyContent: "center",
+    alignItems: "center",
     gap: "20px",
     position: "relative",
-    height: "100px",
+    height: "60px",
+    marginTop: "20px",
   },
   button: {
-    padding: "12px 24px",
+    padding: "15px 40px",
     borderRadius: "12px",
     border: "none",
     color: "white",
-    fontSize: "16px",
+    fontSize: "18px",
+    fontWeight: "600",
     cursor: "pointer",
+    transition: "transform 0.2s",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
   },
   noWrapper: {
     position: "absolute",
+    left: "50%",
+    transform: "translateX(-50%)",
+    marginLeft: "100px",
   },
   success: {
-    fontSize: "24px",
+    fontSize: "32px",
     fontWeight: "bold",
+    color: "#ff4d6d",
+    padding: "20px",
   },
 };
 
@@ -82,8 +94,19 @@ const App: React.FC = () => {
 
             <div style={styles.buttonContainer}>
               <button
-                style={{ ...styles.button, backgroundColor: "#ff4d6d" }}
+                style={{ 
+                  ...styles.button, 
+                  backgroundColor: "#ff4d6d",
+                  position: "relative",
+                  zIndex: 1,
+                }}
                 onClick={() => setAccepted(true)}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "scale(1.05)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "scale(1)";
+                }}
               >
                 Yes 💖
               </button>
