@@ -93,15 +93,26 @@ const styles: { [key: string]: React.CSSProperties } = {
 };
 
 const Confetti: React.FC = () => {
-  const confettiPieces = Array.from({ length: 50 }, (_, i) => ({
-    id: i,
-    left: Math.random() * 100,
-    delay: Math.random() * 0.5,
-    duration: 2 + Math.random() * 2,
-    rotation: Math.random() * 360,
-    color: ['#ff4d6d', '#ffc2d1', '#ffb3c6', '#ff8fab', '#fb6f92'][Math.floor(Math.random() * 5)],
-    size: 8 + Math.random() * 8,
-  }));
+  const confettiPieces = React.useMemo(() => (
+    Array.from({ length: 50 }, (_, i) => {
+      // Deterministic seeded random for SSR and React rules
+      const rand = (seed: number) => {
+        const x = Math.sin(seed) * 10000;
+        return x - Math.floor(x);
+      };
+      const s = i + 1;
+      return {
+        id: i,
+        left: rand(s) * 100,
+        delay: rand(s * 2) * 0.5,
+        duration: 2 + rand(s * 3) * 2,
+        rotation: rand(s * 4) * 360,
+        color: ['#ff4d6d', '#ffc2d1', '#ffb3c6', '#ff8fab', '#fb6f92'][Math.floor(rand(s * 5) * 5)],
+        size: 8 + rand(s * 6) * 8,
+        borderRadius: rand(s * 7) > 0.5 ? '50%' : '2px',
+      };
+    })
+  ), []);
 
   return (
     <>
@@ -115,7 +126,7 @@ const Confetti: React.FC = () => {
             width: `${piece.size}px`,
             height: `${piece.size}px`,
             backgroundColor: piece.color,
-            borderRadius: Math.random() > 0.5 ? '50%' : '2px',
+            borderRadius: piece.borderRadius,
             pointerEvents: 'none',
             zIndex: 100,
           }}
@@ -145,15 +156,24 @@ const Confetti: React.FC = () => {
 };
 
 const FloatingHearts: React.FC = () => {
-  const hearts = ["❤️", "💕", "💖", "💗", "💓", "💝"];
-  const floatingHearts = Array.from({ length: 15 }, (_, i) => ({
-    id: i,
-    emoji: hearts[Math.floor(Math.random() * hearts.length)],
-    leftPosition: Math.random() * 100,
-    animationDelay: Math.random() * 2, // was 10, now much faster
-    duration: 6 + Math.random() * 3,   // was 15 + 10, now much faster
-    size: 0.6 + Math.random() * 0.8,
-  }));
+  const floatingHearts = React.useMemo(() => {
+    const hearts = ["❤️", "💕", "💖", "💗", "💓", "💝"];
+    const rand = (seed: number) => {
+      const x = Math.sin(seed) * 10000;
+      return x - Math.floor(x);
+    };
+    return Array.from({ length: 15 }, (_, i) => {
+      const s = i + 1;
+      return {
+        id: i,
+        emoji: hearts[Math.floor(rand(s) * hearts.length)],
+        leftPosition: rand(s * 2) * 100,
+        animationDelay: rand(s * 3) * 2,
+        duration: 6 + rand(s * 4) * 3,
+        size: 0.6 + rand(s * 5) * 0.8,
+      };
+    });
+  }, []);
 
   return (
     <>
