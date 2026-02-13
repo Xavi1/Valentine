@@ -21,6 +21,13 @@ const styles: { [key: string]: React.CSSProperties } = {
     padding: "20px",
     boxSizing: "border-box",
   },
+  floatingHeart: {
+    position: "absolute",
+    fontSize: "clamp(20px, 4vw, 32px)",
+    opacity: 0.6,
+    pointerEvents: "none",
+    userSelect: "none",
+  },
   card: {
     backgroundColor: "white",
     padding: "clamp(30px, 8vw, 50px)",
@@ -83,6 +90,67 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
 };
 
+const FloatingHearts: React.FC = () => {
+  const hearts = ["❤️", "💕", "💖", "💗", "💓", "💝"];
+  const floatingHearts = Array.from({ length: 15 }, (_, i) => ({
+    id: i,
+    emoji: hearts[Math.floor(Math.random() * hearts.length)],
+    left: `${Math.random() * 100}%`,
+    animationDelay: `${Math.random() * 10}s`,
+    duration: 15 + Math.random() * 10,
+    size: 0.6 + Math.random() * 0.8,
+  }));
+
+  return (
+    <>
+      {floatingHearts.map((heart) => (
+        <motion.div
+          key={heart.id}
+          style={{
+            ...styles.floatingHeart,
+            left: heart.left,
+            fontSize: `${heart.size}em`,
+          }}
+          initial={{ 
+            y: "110vh", 
+            opacity: 0,
+            rotate: 0,
+            x: 0,
+          }}
+          animate={{
+            y: "-10vh",
+            opacity: [0, 0.6, 0.6, 0],
+            rotate: [0, 10, -10, 5, -5, 0],
+            x: [0, 30, -30, 20, -20, 0],
+          }}
+          transition={{
+            duration: heart.duration,
+            repeat: Infinity,
+            delay: heart.animationDelay,
+            ease: "linear",
+            opacity: {
+              duration: heart.duration,
+              times: [0, 0.1, 0.9, 1],
+            },
+            rotate: {
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+            },
+            x: {
+              duration: 5,
+              repeat: Infinity,
+              ease: "easeInOut",
+            },
+          }}
+        >
+          {heart.emoji}
+        </motion.div>
+      ))}
+    </>
+  );
+};
+
 const App: React.FC = () => {
   const [accepted, setAccepted] = useState(false);
   const [position, setPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -106,6 +174,7 @@ const App: React.FC = () => {
 
   return (
     <div style={styles.page}>
+      <FloatingHearts />
       <motion.div 
         style={styles.card}
         initial={{ scale: 0.9, opacity: 0, y: 20 }}
